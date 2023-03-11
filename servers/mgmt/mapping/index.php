@@ -9,9 +9,16 @@ require_once __DIR__ . "/../../../login.php";
 if (!isset($_GET['server_id']) || intval($_GET['server_id']) === 0) {
     header("Location: ../");
 }
+
 if (!User::canPerformAction($sql, $_SESSION['user_id'], Constants::$SERVER_ADMIN)) {
     header("Location: ../");
 }
+
+$data = Server::getServersWithHostAndGame($sql, $_SESSION['user_id'], $_GET['server_id']);
+if (sizeof($data) !== 1) {
+    header("Location: ../../");
+}
+    
 ?>
 
 <!DOCTYPE html>
